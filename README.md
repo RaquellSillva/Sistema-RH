@@ -14,7 +14,10 @@ Este projeto é um sistema web para calcular automaticamente a folha de ponto de
 ## Tecnologias Utilizadas
 - **Backend**: Python (Flask)
 - **Frontend**: HTML, CSS
-- **Integração**: Azure 
+- **Integração**: Azure
+
+- ## Acesso ao Projeto
+Este projeto está disponível online em [link do projeto](https://sistema-rh-q5a3.onrender.com).
 
 ## Como usar
 - **Login**

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Calculadora Salário Líquido</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imagem/favicon.ico') }}">
+</head>
+<body>
+    <header id="inicio">
+        <img src="{{ url_for('static', filename='imagem/login.jpeg') }}" alt="Logo da Empresa" class="logo" width="150" height="auto">
+        <h1>RH System Calculator</h1>
+    </header>
+  
+    <nav>
+        <a href="#inicio">Início</a>
+        <a href="#objetivo">Objetivo da Calculadora</a>
+        <a href="#calculo">Cálculo de Salário Líquido</a>
+        <a href="#tabelas">Tabelas Importantes</a>
+    </nav>
+
+    <section id="boas-vindas">
+        <p>Bem-vindo ao sistema de folha de pagamento automatizado.</p>
+    </section>
+    <section id="objetivo">
+        <h2>Objetivo da Calculadora</h2>
+        <p>Este projeto tem como objetivo ser uma calculadora automatizada para ajudar empresas a fecharem a folha de pagamento dos funcionários de forma mais rápida e eficiente. <br>
+            A folha de pagamento é um documento que contém informações sobre os salários, horas extras, descontos e outros detalhes relacionados ao pagamento de cada colaborador. <br>
+            No formato atual, o processo pode ser demorado e sujeito a erros.
+            Com essa solução, queremos reduzir o tempo necessário para calcular os pagamentos e garantir que os valores sejam calculados corretamente, seguindo as regras trabalhistas. <br>
+            Além disso, o sistema será capaz de gerar relatórios detalhados em PDF, facilitando ainda mais o trabalho da equipe de Recursos Humanos.</p>
+    </section>
+
+    <section id="calculo">
+        <h2>Cálculo de Salário Líquido</h2>
+        <p>Por favor, preencha os campos abaixo para realizar o cálculo do salário líquido do funcionário.</p>
+        
+        <form method="POST">
+            <label for="salario">Digite o salário:</label>
+            <input type="number" step="0.01" name="salario" required><br>
+
+            <label for="horas">Digite em horas trabalhadas:</label>
+            <input type="number" step="0.01" name="horas" required><br>
+
+            <label for="atraso">Digite horas de atrasos:</label>
+            <input type="number" step="0.01" name="atraso" required><br>
+
+            <label for="extras">Digite horas extras:</label>
+            <input type="number" step="0.01" name="extras" required><br>
+
+            <label for="taxa">Digite a taxa de 50% a 100%:</label>
+            <input type="number" name="taxa" min="50" max="100" required><br>
+
+            <label for="aliquota">Digite a alíquota do INSS:</label>
+            <input type="number" step="0.01" name="aliquota" required><br>
+
+            <label for="bonus">Digite bonificação:</label>
+            <input type="number" step="0.01" name="bonus" required><br>
+
+            <label>Possui vale alimentação ou refeição (VA/VR)? (s/n): </label>
+            <input type="text" name="resposta" required><br>
+
+            <div id="vavr-block" style="display:none;">
+                <label for="vavr">Digite o valor do benefício VA/VR:</label>
+                <input type="number" step="0.01" name="vavr">
+            </div>
+            <br>
+            <input type="submit" value="Calcular">
+        </form>
+
+        {% if resultado %}
+            <h2>Resultados:</h2>
+            <p>Valor da hora: R$ {{ resultado['valorhora'] | round(2) }}</p>
+            <p>Valor horas extras: R$ {{ resultado['valorhoraextra'] | round(2) }}</p>
+            <p>Desconto dos atrasos: -R$ {{ resultado['descontoatraso'] | round(2) }}</p>
+            <p>Desconto INSS: -R$ {{ resultado['dinss'] | round(2) }}</p>
+            <p>Desconto FGTS: -R$ {{ resultado['fgts'] | round(2) }}</p>
+            <p>Desconto VA/VR: -R$ {{ resultado['descontovavr'] | round(2) }}</p>
+            <h3>Líquido a receber: R$ {{ resultado['liquido'] | round(2) }}</h3>
+
+            <!-- Botão para baixar o PDF -->
+            <a href="{{ url_for('relatorio_pdf') }}" target="_blank">
+                <button type="button">Baixar Relatório em PDF</button>
+            </a>
+        {% endif %}
+    </section>
+
+    <section id="tabelas">
+        <h2>Tabelas Importantes</h2>
+    
+
+        <p style="color: #200168;">- Tabela INSS (2024):</p>
+        <table border="1" bordercolor="#666" cellspacing="1" style="border-collapse: collapse; margin:auto;" width="85%">
+            <tbody>
+                <tr bgcolor="#CAFBE3">
+                    <td bgcolor="#EAF4FF" width="23%"><p align="CENTER"><strong>Salário de Contribuição (R$)</strong></p></td>
+                    <td bgcolor="#EAF4FF" width="22%"><p align="CENTER"><strong>Alíquota (%)</strong></p></td>
+                </tr>
+                <tr><td align="center">Até R$ 1.412,00</td><td align="center">7,5%</td></tr>
+                <tr><td align="center">De R$ 1.412,01 até R$ 2.666,68</td><td align="center">9%</td></tr>
+                <tr><td align="center">De R$ 2.666,69 até R$ 4.000,03</td><td align="center">12%</td></tr>
+                <tr><td align="center">De R$ 4.000,04 até R$ 7.786,02</td><td align="center">14%</td></tr>
+                <tr><td align="center" colspan="2">Teto Máximo de Desconto do Empregado: R$ 908,85</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 RH System Calculator.</p>
+    </footer>
+
+    <script>
+        const respostaInput = document.querySelector('input[name="resposta"]');
+        const vavrBlock = document.getElementById('vavr-block');
+        respostaInput.addEventListener('input', function() {
+            vavrBlock.style.display = respostaInput.value.toLowerCase() === 's' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

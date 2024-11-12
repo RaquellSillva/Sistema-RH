@@ -1,0 +1,113 @@
+style.css
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.card {
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.label-float {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.label-float input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.label-float input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.label-float label {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    transition: 0.2s ease all;
+    color: #999;
+}
+
+.label-float input:focus + label,
+.label-float input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #007bff;
+}
+
+.label-float i {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    color: #999;
+}
+
+.justify-center {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#msgError, #msgSuccess {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    display: none; /* Inicialmente escondido */
+}
+
+#msgError {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+#msgSuccess {
+    background-color: #d4edda;
+    color: #155724;
+}

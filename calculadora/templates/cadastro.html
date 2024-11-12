@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"> <!-- Ajuste para o caminho correto -->
+    <title>RH System Calculator</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1>RH System Calculator</h1>
+      </div>
+      <div class="card">
+        <h2>Cadastrar</h2>
+
+        <!-- Mensagens de erro e sucesso -->
+        <div id="msgError" style="color: red;">{{ msgError }}</div>  <!-- Mensagem de erro -->
+        <div id="msgSuccess" style="color: green;">{{ msgSuccess }}</div> <!-- Mensagem de sucesso -->
+
+        <!-- Formulário de Cadastro -->
+        <form method="POST">
+          <div class="label-float">
+            <input type="text" id="nome" name="nome" placeholder=" " required>
+            <label id="labelNome" for="nome">Nome Completo</label>
+          </div>
+
+          <div class="label-float">
+            <input type="text" id="usuario" name="usuario" placeholder=" " required>
+            <label id="labelUsuario" for="usuario">E-mail</label>
+          </div>
+
+          <div class="label-float">
+            <input type="password" id="senha" name="senha" placeholder=" " required>
+            <label id="labelSenha" for="senha">Senha</label>
+            <i id="verSenha" class="fa fa-eye" aria-hidden="true"></i>
+          </div>
+
+          <div class="label-float">
+            <input type="password" id="confirmSenha" name="confirmSenha" placeholder=" " required>
+            <label id="labelConfirmSenha" for="confirmSenha">Confirmar Senha</label>
+            <i id="verConfirmSenha" class="fa fa-eye" aria-hidden="true"></i>
+          </div>
+
+          <div class="justify-center">
+            <button type="submit">Cadastrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script> <!-- Ajuste para o caminho correto -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const senhaInput = document.getElementById('senha');
+          const confirmSenhaInput = document.getElementById('confirmSenha');
+          const verSenhaIcon = document.getElementById('verSenha');
+          const verConfirmSenhaIcon = document.getElementById('verConfirmSenha');
+      
+          function togglePasswordVisibility(inputElement, iconElement) {
+              if (inputElement.type === 'password') {
+                  inputElement.type = 'text';
+                  iconElement.classList.remove('fa-eye');
+                  iconElement.classList.add('fa-eye-slash');
+              } else {
+                  inputElement.type = 'password';
+                  iconElement.classList.remove('fa-eye-slash');
+                  iconElement.classList.add('fa-eye');
+              }
+          }
+      
+          verSenhaIcon.addEventListener('click', function() {
+              togglePasswordVisibility(senhaInput, verSenhaIcon);
+          });
+      
+          verConfirmSenhaIcon.addEventListener('click', function() {
+              togglePasswordVisibility(confirmSenhaInput, verConfirmSenhaIcon);
+          });
+      });
+    </script>
+  </body>
+</html>

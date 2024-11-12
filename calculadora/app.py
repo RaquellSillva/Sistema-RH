@@ -4,7 +4,10 @@ from reportlab.pdfgen import canvas
 import io
 
 app = Flask(__name__)
-app.secret_key = "sua_chave_secreta"  # Necessário para usar a sessão
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['ENV'] = os.getenv('FLASK_ENV', 'production')  # default to production
+
+
 
 # Função de cálculo para gerar o relatório
 def calcular_salario(salario, horas, atraso, extras, taxa, aliquota_inss, bonus, vavr):

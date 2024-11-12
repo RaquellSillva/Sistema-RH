@@ -139,6 +139,11 @@ def relatorio_pdf():
     pdf = gerar_pdf(dados)
     return send_file(pdf, as_attachment=True, download_name="relatorio_salario.pdf", mimetype='application/pdf')
 
+# Rota para redirecionar a URL raiz para a página de login
+@app.route('/')
+def home():
+    return redirect(url_for('login'))
+
 # Rota para logout
 @app.route('/logout')
 def logout():

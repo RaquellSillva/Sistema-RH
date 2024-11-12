@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file, session
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
+import os
 import io
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['ENV'] = os.getenv('FLASK_ENV', 'production')  # default to production
-
-
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'minha_chave_secreta')  # Chave secreta padrão
+app.config['ENV'] = os.getenv('FLASK_ENV', 'production')  # Define o ambiente como 'production' por padrão
 
 # Função de cálculo para gerar o relatório
 def calcular_salario(salario, horas, atraso, extras, taxa, aliquota_inss, bonus, vavr):
@@ -147,4 +146,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
